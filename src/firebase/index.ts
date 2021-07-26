@@ -3,7 +3,7 @@ import { firebaseConfig } from "../config/gcp.config";
 import { generate_UUID } from "../utils";
 
 class FirebaseApp {
-  private firebaseDatabase: any;
+  private firebaseDatabase: firebase.database.Database;
   
   get getFirebaseDatabase() {
     return this.firebaseDatabase;

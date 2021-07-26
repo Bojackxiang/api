@@ -36,7 +36,7 @@ class User {
 
   static async register(user: IRegister) {
     try {
-      ``
+      
     } catch (error) {
       throw new Error(error.message)  
     }
