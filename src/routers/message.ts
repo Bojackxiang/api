@@ -21,7 +21,7 @@ messageRouter.post(
       console.log(addMessageResult)
 
 
-      res.send("message create message")
+      res.json(response)
     } catch (err) {
       response.success = false
       response.message = err.message

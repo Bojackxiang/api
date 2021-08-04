@@ -2,10 +2,10 @@ import FirebaseClient from '../firebase'
 import { generate_UUID } from "../utils";
 
 export interface IMessage {
-  body: String;
-  authorId: String;
+  message: String;
   phone: String;
   email: String;
+  name:String;
 }
 
 class Message {
@@ -19,18 +19,19 @@ class Message {
       message: undefined,
     }
     try {
-      if(!message.body || !message.phone || !message.email){
-        throw new Error("Invalid message body")
+      console.log('in')
+      if(!message.message || !message.name){
+        throw new Error("Name and message are required")
       }
       const firebaseClient = FirebaseClient.getFirebaseDatabase;
 
       await firebaseClient
         .ref(`messages-collection/${generate_UUID()}`)
         .set({
-          message: message.body,
-          authorId: message.authorId || '',
+          message: message.message,
           phone: message.phone,
           email: message.email,
+          created_at: new Date().toLocaleString("en-US", {timeZone: "Australia/Sydney"})
         })
       
         return result; 
