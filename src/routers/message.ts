@@ -8,7 +8,7 @@ messageRouter.post(
   "/create-message",
   async function login(req: Request, res: Response, next: NextFunction) {
     const response = {
-      success: false,
+      success: true,
       message: '',
     }
     try {
