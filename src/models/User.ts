@@ -1,22 +1,19 @@
-import {} from 'firebase'
+import Result, { IResult } from './IResult'
 
-interface IUser {
+export interface IUser {
   username: String;
   password: String;
-  email: String;
+  email: String; // 当用户登录的时候是不需要 email 的
 }
 
-interface ILoginInputs {
-  password: String;
-  email: String;
+export interface ILoginUser {
+  email?: string; 
+  username?: string; // 
+  password: string
 }
 
-interface IRegister {
-  email: String;
-  password: String;
-}
 
-class User {
+class User implements IUser {
   username: String;
   password: String;
   email: String;
@@ -27,20 +24,28 @@ class User {
     this.email = email;
   }
 
-  static async login(loginInputs: ILoginInputs) {
-    return {
-      email: loginInputs.email,
-      success: true
+  static async checkUsernameExist(username: string) {
+    try {
+      return Result.success();
+    } catch (error) {
+      return Result.failure(error.message)
     }
   }
 
-  static async register(user: IRegister) {
+  static async login(user: ILoginUser) {
     try {
-      
+      return Result.success();
     } catch (error) {
-      throw new Error(error.message)  
+      return Result.failure(error.message)
     }
-    
+  }
+
+  async register(user: IUser) {
+    try {
+      return Result.success();
+    } catch (error) {
+      return Result.failure(error.message)
+    }
   }
 }
 

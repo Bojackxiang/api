@@ -8,8 +8,8 @@ loginRouter.post(
   "/login",
   async function login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password } = req.body;
-      const loginResult = await User.login({ email, password });
+      const { username, email, password } = req.body;
+      const loginResult = await User.login({ username, email, password });
 
       if (loginResult.success) {
       } else {
