@@ -7,6 +7,7 @@ healthCheckRouter.get('/health-check', (req: Request,
   next: NextFunction) => {
   try {
     res.send('healthy!')
+    
   } catch (err) {
     next(err);
   }
