@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginRouter, healthCheck, messageRouter } from './routers'
+import { loginRouter, healthCheck, messageRouter, testRouter } from './routers'
 import bodyParser from 'body-parser';
 import cors from "cors";
 import defender from './middlewares/defender';
@@ -21,6 +21,7 @@ app.use((req: express.Request,
 app.use('/api', messageRouter);
 app.use('/api', loginRouter);
 app.use('/api', healthCheck)
+app.use('/api', testRouter)
 
 
 app.listen(3001, () => {
