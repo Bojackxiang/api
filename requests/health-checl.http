@@ -1,0 +1,4 @@
+
+# 测试 health-check 接口
+GET {{host}}/health-check
+secret:{{secret}}

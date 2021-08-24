@@ -1,0 +1,16 @@
+
+###
+GET {{host}}/general-error
+secret:{{secret}}
+
+### 
+GET {{host}}/not-found-error
+secret:{{secret}}
+
+### 
+GET {{host}}/auth-error
+secret:{{secret}}
+
+### 
+GET {{host}}/ok
+secret:{{secret}}

@@ -15,5 +15,15 @@
     "titleBar.inactiveBackground": "#e5b47b99",
     "titleBar.inactiveForeground": "#15202b99"
   },
-  "peacock.color": "#e5b47b"
+  "peacock.color": "#e5b47b",
+  "rest-client.environmentVariables":{
+    "local": {
+      "host": "http://localhost:3001/api",
+      "secret":"secret"
+    },
+    "production": {
+      "host": "http://143.110.189.226/restful/api",
+      "secret":"secret"
+    }
+  }
 }
