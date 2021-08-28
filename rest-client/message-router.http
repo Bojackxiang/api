@@ -1,0 +1,11 @@
+### 测试是否 create-mesasge 能够正常 创建信息
+POST {{host}}/create-message
+secret:{{secret}}
+Content-Type: application/json
+
+{
+  "message": "sample message test",
+  "name": "sample name test",
+  "email": "smaple email test",
+  "phone": "sample phone test"
+}

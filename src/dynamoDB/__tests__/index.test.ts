@@ -1,4 +1,4 @@
-import DynamoDB_Message from '../message'
+import DynamoDB_Message from '..'
 
 describe('message dynammodb 的测试', () => {
   it('scan 成功', async () => {

@@ -16,22 +16,22 @@ export default class JSONResult {
   }
 
   static ok(data?: any) {
-    const jsonResult = new JSONResult('success', data ?? {})
+    const jsonResult = new JSONResult('Success: ', data ?? {})
     return jsonResult;
   }
 
   static authError(data?: any) {
-    const jsonResult = new JSONResult('Auth Error', data ?? {})
+    const jsonResult = new JSONResult('Auth Error: ', data ?? {})
     return jsonResult
   }
 
   static notFoundError(data?: any) {
-    const jsonResult = new JSONResult('Not found Error', data ?? {})
+    const jsonResult = new JSONResult('Not found Error:  ', data ?? {})
     return jsonResult
   }
 
   static error(data?: any) {
-    const jsonResult = new JSONResult('General Error', data ?? {})
+    const jsonResult = new JSONResult('General Error: ', data ?? {})
     return jsonResult
   }
 }
