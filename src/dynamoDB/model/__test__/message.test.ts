@@ -36,4 +36,8 @@ describe('message model 能够正常在 DynamoDB 中创建信息', () => {
 
     
   })
+
+  it('能够 通过 id 正常更新 message', () => {
+    
+  });
 })
