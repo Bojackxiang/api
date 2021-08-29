@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "npx jest",
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon --max_old_space_size=8048 ./src/index.ts",
     "watch": "nodemon --exec yarn dev",
     "prod": "docker build -t batmandocode/api . && docker push batmandocode/api",
-    "build": "rimraf ./build && tsc"
+    "build": "tsc --build",
+    "clean": "tsc clean", 
+    "serve": "node --max_old_space_size=8048 ./src/index.js"
   },
   "keywords": [],
   "author": "",
