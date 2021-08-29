@@ -10,7 +10,7 @@
     "prod": "docker build -t batmandocode/api . && docker push batmandocode/api",
     "build": "tsc --build",
     "clean": "tsc clean", 
-    "serve": "node --max_old_space_size=8048 ./src/index.js"
+    "serve": "node --max_old_space_size=8048 ./build/index.js"
   },
   "keywords": [],
   "author": "",
