@@ -26,7 +26,6 @@ describe('message dynammodb 的测试', () => {
     await DynamoDB_Message.deleteMessageById('9900')
     const deleteItem = await DynamoDB_Message.deleteMessageById('9900')
     expect(deleteItem).toEqual({})
-
-
   })
+
 })
