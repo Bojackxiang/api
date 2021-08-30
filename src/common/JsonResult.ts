@@ -8,7 +8,7 @@ export default class JSONResult {
     this.data = data;
     this.success = success;
   }
-  
+
   get getMessage() {
     return this.data
   }
@@ -17,23 +17,23 @@ export default class JSONResult {
     return this.message;
   }
 
-  static ok(data?: any) {
-    const jsonResult = new JSONResult('Success: ', data ?? {}, true)
+  static ok(data?: any, message?: string) {
+    const jsonResult = new JSONResult(`Success: ${message}`, data ?? {}, true)
     return jsonResult;
   }
 
-  static authError(data?: any) {
-    const jsonResult = new JSONResult('Auth Error: ', data ?? {}, false, )
+  static authError(data?: any, message?: string) {
+    const jsonResult = new JSONResult(`Auth Error ${message}`, data ?? {}, false,)
     return jsonResult
   }
 
-  static notFoundError(data?: any) {
-    const jsonResult = new JSONResult('Not found Error:  ', data ?? {}, false)
+  static notFoundError(data?: any, message?: string) {
+    const jsonResult = new JSONResult(`Not found Error ${message}`, data ?? {}, false)
     return jsonResult
   }
 
-  static error(data?: any) {
-    const jsonResult = new JSONResult('General Error: ', data ?? {}, false)
+  static error(data?: any, message?: string) {
+    const jsonResult = new JSONResult(`General Error ${message}`, data ?? {}, false)
     return jsonResult
   }
 }

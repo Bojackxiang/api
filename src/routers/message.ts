@@ -10,7 +10,6 @@ messageRouter.post(
     
     try {
       const message: IMessageInput | undefined = req.body;
-      console.log(req.body)
       if(!message?.message || !message.name || (!message.email && !message.phone)) {
         throw new Error("Missing message, name or email or phone")
       }
@@ -22,10 +21,10 @@ messageRouter.post(
         throw new Error(result.message)
       }
 
-      res.json(JSONResult.ok("Message has been sent! "))
+      res.json(JSONResult.ok(undefined, "Message has been sent! "))
 
     } catch (err) {
-        res.json(JSONResult.error("Missing message, name or email or phone"));
+        res.json(JSONResult.error(undefined, "Missing message, name or email or phone"));
     }
   }
 );
