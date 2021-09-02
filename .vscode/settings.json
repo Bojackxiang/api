@@ -14,7 +14,7 @@
     "titleBar.activeForeground": "#e7e7e7",
     "titleBar.inactiveBackground": "#12112a99",
     "titleBar.inactiveForeground": "#e7e7e799"
-  },
+},
   "peacock.color": "#12112a",
   "rest-client.environmentVariables":{
     "local": {
@@ -25,5 +25,9 @@
       "host": "http://143.110.189.226/restful/api",
       "secret":"secret"
     }
-  }
+  },
+  "customizeUI.stylesheet": {
+    ".explorer-viewlet .mac": "font-weight: bold !important; color: #e7e7e7; font-size: 0.8rem",
+    // "customizeUI.font.monospace": "Fira Code",
+},
 }
