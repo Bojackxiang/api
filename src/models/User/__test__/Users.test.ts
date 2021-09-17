@@ -20,11 +20,11 @@ describe('用户操作', () => {
     const user = {
       username: 'admin',
       email: 'admin@admin.com',
-      password: '11111',
+      password: '111111',
     }
 
     try {
-      const result = await User.login(user)
+      const result = await User.verifyUserInfo(user)
       console.log({ result })
     } catch (error) {
       console.log(error)
@@ -32,8 +32,5 @@ describe('用户操作', () => {
       const pool = UserRDS.getPool;
       pool.end(); // end 这边就能
     }
-
-
-
   })
 })

@@ -3,6 +3,8 @@ import generateUUID from '../../utils/uuid-generator';
 import UserRDS from '../../aws/RDS'
 import mysql from 'mysql'
 import { comparePassword, encoding } from '../../utils/password-encoding';
+import runQuery from '../../utils/sql';
+import { query } from 'express';
 
 export interface IUser {
   user_id: String;
@@ -16,7 +18,7 @@ export interface IUser {
 
 export interface ILoginUser {
   email?: string;
-  username?: string; // 
+  username?: string;
   password: string
 }
 
@@ -56,10 +58,9 @@ class User implements IUser {
     }
   }
 
-  static async login(user: ILoginUser) {
+  static async verifyUserInfo(user: Partial<IUser>) {
     // 这边只是用户登录，和比较信息，jwt token 在 service 层添加
-    return new Promise((resolve, reject) => {
-      const pool = UserRDS.getPool;
+    try {
 
       const query = `
             SELECT username, email, password 
@@ -70,35 +71,30 @@ class User implements IUser {
                 username = '${user.email}'
             `;
 
-      pool.getConnection((err: any, connection: mysql.PoolConnection) => {
-        if (err) {
-          reject(err);
+      const handlerResult = async (result: any) => {
+        const foundUser = result[0];
+        if (!user.password) throw new Error('没有用户密码')
+        const passwordCompare = await comparePassword(
+          foundUser.password,
+          user.password as string);
+
+        if (passwordCompare) {
+          return Result.success("登录成功", foundUser)
         } else {
-          connection.query(query, async (err, result) => {
-            if (err) {
-              reject(err);
-            } else {
-              if (result.length === 0) {
-                resolve(Result.failure("用户不存在"));
-              } else {
-                const foundUser = result[0];
-                const passwordCompare = await comparePassword(foundUser.password,
-                  user.password);
-                if (passwordCompare) {
-                  resolve(Result.success("登录成功", foundUser))
-                } else {
-                  reject(Result.failure("用户信息不正确"))
-                }
-              }
-            }
-          })
+          return Result.failure("用户信息不正确")
         }
-        connection.release();
+      }
+      
+      return await runQuery(query, handlerResult);
 
-      })
+    } catch (error) {
+      return Result.failure("用户验证出错", error)
+    }
+
+    
 
 
-    })
+
   }
 
 
