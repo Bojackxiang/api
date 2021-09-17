@@ -35,7 +35,7 @@ class Message {
         })
       
         return result; 
-    } catch (error) {
+    } catch (error: any) {
       result.success = false; 
       result.message = error.message;
       return result;
