@@ -27,7 +27,7 @@
     }
   },
   "customizeUI.stylesheet": {
-    ".explorer-viewlet .mac": "font-weight: bold !important; color: #e7e7e7; font-size: 0.8rem",
+    ".explorer-viewlet .mac": "font-weight: bold !important; color: #e7e7e7; font-size: 0.9rem",
     // "customizeUI.font.monospace": "Fira Code",
 },
 }

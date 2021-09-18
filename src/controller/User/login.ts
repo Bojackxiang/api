@@ -1,12 +1,13 @@
 import loginService from "../../service/User/Login";
 import { Request, Response } from 'express'
 import Result from "../../models/Result";
+import ResponseBuilder from '../../utils/response-builder'
 
 
 const loginController = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
-    let result = null;
+    let responseBody = null;
 
     if (!username && !email) {
       res.status(400).json(Result.failure('Email or username is required'))
@@ -17,22 +18,28 @@ const loginController = async (req: Request, res: Response) => {
     }
 
     const loginServiceResult = await loginService({ username, email, password });
-    const {success,  data, } = loginServiceResult;
-    
+    const { success, data, } = loginServiceResult;
+
     if (success) {
-      result = Result.success('Login Successfully', {
-        username: data.username,
-        token: data.token
-      })
+      responseBody = ResponseBuilder.buildResponse(
+        'Login Successfully',
+        {
+          username: data.username,
+          token: data.token
+        }
+      )
     } else {
       throw new Error(data);
     }
 
-    res.json(result)
+    res.json(responseBody)
   } catch (error: any) {
-    // TODO 建立一个 response 体系
-    console.error(error)
-    res.status(400).send(error.message)
+    console.log(error)
+    const responseBody = ResponseBuilder.buildResponse(
+      'Login Error',
+      error.message
+    )
+    res.status(400).json(responseBody)
   }
 }
 
