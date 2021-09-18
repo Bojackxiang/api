@@ -5,7 +5,7 @@ class Response {
   success: boolean;
 
   constructor(message: string,
-    data: any,
+    data: any, // data 最好不要是 string
     code: number,
     success: boolean = true) {
     this.data = data;
