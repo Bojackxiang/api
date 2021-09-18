@@ -1,18 +1,15 @@
 import Result, { IResult } from '../Result'
 import generateUUID from '../../utils/uuid-generator';
-import UserRDS from '../../aws/RDS'
-import mysql from 'mysql'
 import { comparePassword, encoding } from '../../utils/password-encoding';
 import runQuery from '../../utils/sql';
-import { query } from 'express';
 
 export interface IUser {
-  user_id: String;
-  username: String;
-  password: String;
-  phone_num: String;
-  email: String; // 当用户登录的时候是不需要 email 的
-  age: Number; // 当用户登录的时候是不需要 email 的
+  user_id: string;
+  username: string;
+  password: string;
+  phone_num: string;
+  email: string; // 当用户登录的时候是不需要 email 的
+  age: number; // 当用户登录的时候是不需要 email 的
   sex: 'male' | 'female' | 'unknown'
 }
 
@@ -25,20 +22,20 @@ export interface ILoginUser {
 type genderOption = 'male' | 'female' | 'unknown'
 
 class User implements IUser {
-  user_id: String;
-  username: String;
-  password: String;
-  email: String; // 当用户登录的时候是不需要 email 的
-  age: Number; // 当用户登录的时候是不需要 email 的
+  user_id: string;
+  username: string;
+  password: string;
+  email: string; // 当用户登录的时候是不需要 email 的
+  age: number; // 当用户登录的时候是不需要 email 的
   sex: genderOption
-  phone_num: String
+  phone_num: string
 
   constructor(
-    username: String,
-    password: String,
-    email: String,
-    phone_num: String,
-    age: Number,
+    username: string,
+    password: string,
+    email: string,
+    phone_num: string,
+    age: number,
     sex: genderOption
   ) {
     this.user_id = generateUUID()
@@ -57,7 +54,7 @@ class User implements IUser {
       return Result.failure(error.message)
     }
   }
- 
+
   static async verifyUserInfo(user: Partial<IUser>) {
     // 这边只是用户登录，和比较信息，jwt token 在 service 层添加
     try {
@@ -72,7 +69,7 @@ class User implements IUser {
 
       const handlerResult = async (result: any) => {
         const foundUser = result[0];
-        if(!foundUser) return Result.failure("Not found user with given username / email", {})
+        if (!foundUser) return Result.failure("Not found user with given username / email", {})
         if (!user.password) throw new Error('Password is required')
         const passwordCompare = await comparePassword(
           foundUser.password,
@@ -92,17 +89,26 @@ class User implements IUser {
     }
   }
 
-  static async createUser(newUser: IUser) {
+  static async createUser(newUser: {
+    username: string,
+    password: string, 
+    email: string, 
+    phoneNum?: string | null, 
+    age?: number | null,
+    sex?: 'male' | 'female' | 'unknown'
+  }) {
     try {
       const password = await encoding(newUser.password.toString());
+
       const user = new User(
         newUser.username,
         password as string,
         newUser.email,
-        newUser.phone_num,
-        newUser.age,
-        newUser.sex,
+        newUser.phoneNum ?? '',
+        newUser.age ?? 0,
+        newUser.sex ?? 'unknown',
       );
+
       const query = `INSERT INTO users.users (user_id, username, password, email, age, sex, phone_num) 
         VALUES ('${user.user_id}', '${user.username}', '${user.password}', '${user.email}', '${user.age}', '${user.sex}', '${user.phone_num}')`;
 
@@ -111,16 +117,15 @@ class User implements IUser {
           if (result && result.affectedRows >= 1) {
             return Result.success('User created successfully')
           }
-          throw new Error ('Failure to create user')
+          throw new Error('')
         } catch (error: any) {
-          return Result.failure(error.message)
+          throw new Error(error.message)
         }
       }
 
       return await runQuery(query, handlerResult);
-
-    } catch (error) {
-      return Result.failure("Failure to create user", error)
+    } catch (error: any) {
+      return Result.failure(error, {})
     }
 
   }

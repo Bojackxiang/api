@@ -15,11 +15,11 @@ const runQuery = (query: string, resultHandler: any) => {
 
     pool.getConnection((err: any, connection: mysql.PoolConnection) => {
       if (err) {
-        reject(Result.failure('Get Connection Error', err));
+        reject('Get Connection Error');
       } else {
         connection.query(query, async (err, result) => {
           if (err) {
-            reject(Result.failure('Run query error', err.message));
+            reject(err.message);
           } else {
             resolve(await resultHandler(result))
           }
