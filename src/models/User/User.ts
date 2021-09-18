@@ -91,20 +91,22 @@ class User implements IUser {
 
   static async createUser(newUser: {
     username: string,
-    password: string, 
-    email: string, 
-    phoneNum?: string | null, 
+    password: string,
+    email: string,
+    phone_num?: string | null,
     age?: number | null,
     sex?: 'male' | 'female' | 'unknown'
   }) {
     try {
       const password = await encoding(newUser.password.toString());
 
+      console.log(newUser)
+
       const user = new User(
         newUser.username,
         password as string,
         newUser.email,
-        newUser.phoneNum ?? '',
+        newUser.phone_num ?? '',
         newUser.age ?? 0,
         newUser.sex ?? 'unknown',
       );

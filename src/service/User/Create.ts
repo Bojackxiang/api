@@ -4,12 +4,13 @@ import User from "../../models/User/User"
 interface UserLoginInterface {
   username?: string
   email?: string
-  password: string
+  password: string,
+  phone_num?: string
 
 }
 const registerService = async (loginInput: UserLoginInterface) => {
   try {
-    const { username, email, password } = loginInput
+    const { username, email, password, ...properties } = loginInput
 
     if (!username || !email || !password) {
       throw new Error('Username, email and password are required')
@@ -18,7 +19,8 @@ const registerService = async (loginInput: UserLoginInterface) => {
     const createResult = await User.createUser({
       username: username ?? '', 
       email: email ?? '', 
-      password
+      password,
+      ...properties
     });
 
     const { success, data, message } = createResult as IResult;

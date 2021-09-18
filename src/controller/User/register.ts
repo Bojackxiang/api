@@ -7,7 +7,7 @@ import ResponseBuilder from '../../utils/response-builder'
 const registerController = async (req: Request, res: Response) => {
   try {
     // validation 
-    const { username, email, password } = req.body;
+    const { username, email, password, ...properties } = req.body;
     let responseBody = null;
 
     if (!username || !email || !password) {
@@ -18,7 +18,8 @@ const registerController = async (req: Request, res: Response) => {
     const createResult = await registerService({
       username,
       email,
-      password
+      password,
+      ...properties,
     });
 
     const { success, data, } = createResult;
