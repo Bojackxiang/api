@@ -13,12 +13,11 @@ describe('用户操作', () => {
         'unknown'
       );
       const createResult = await User.createUser(user);
-      console.log({createResult})
+      console.debug({createResult})
     } catch (error) {
-      console.log('出错了')
-      console.log(error)
+      console.debug(error)
     }finally{
-      console.log('结束了')
+      console.debug('结束了')
       const pool = UserRDS.getPool;
       pool.end(); // end 这边就能
     }
@@ -34,9 +33,9 @@ describe('用户操作', () => {
 
     try {
       const result = await User.verifyUserInfo(user)
-      console.log({ result })
+      console.debug({ result })
     } catch (error) {
-      console.log(error)
+      console.error(error)
     } finally {
       const pool = UserRDS.getPool;
       pool.end(); // end 这边就能

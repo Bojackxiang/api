@@ -1,6 +1,6 @@
 import mysql from 'mysql'
 import UserRDS from '../aws/RDS'
-import Result from '../models/IResult';
+import Result from '../models/Result';
 
 const runQuery = (query: string, resultHandler: any) => {
   return new Promise((resolve, reject) => {

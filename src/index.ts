@@ -35,12 +35,12 @@ process.on('SIGINT', function () {
   if (pool) {
     pool.end()
   } else {
-    console.log('没有连接可以关闭')
+    console.debug('没有连接可以关闭')
   }
   process.exit()
 });
 
 
 app.listen(3001, () => {
-  console.log('🚀 API IS RUNNING ON 3001...');
+  console.debug('🚀 API IS RUNNING ON 3001...');
 })

@@ -1,6 +1,6 @@
 import loginService from "../../service/User/Login";
 import { Request, Response } from 'express'
-import Result from "../../models/IResult";
+import Result from "../../models/Result";
 
 
 const loginController = async (req: Request, res: Response) => {
@@ -17,7 +17,7 @@ const loginController = async (req: Request, res: Response) => {
     }
 
     const loginServiceResult = await loginService({ username, email, password });
-    const {success,  data, message } = loginServiceResult;
+    const {success,  data, } = loginServiceResult;
     
     if (success) {
       result = Result.success('Login Successfully', {
@@ -31,7 +31,7 @@ const loginController = async (req: Request, res: Response) => {
     res.json(result)
   } catch (error: any) {
     // TODO 建立一个 response 体系
-    console.log(error)
+    console.error(error)
     res.status(400).send(error.message)
   }
 }

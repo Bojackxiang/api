@@ -12,7 +12,6 @@ describe('message model 能够正常在 DynamoDB 中创建信息', () => {
 
   it('能够成功 获取 首页的所有message', async () => {
     const firstPageMessage = await DynamoDBMessage.listMessage(10);
-    console.log(firstPageMessage)
     expect(Array.isArray(firstPageMessage)).toBe(true)
   })
 

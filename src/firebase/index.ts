@@ -27,7 +27,7 @@ class FirebaseApp {
           ...data
         });
       return result
-    } catch (error) {
+    } catch (error: any) {
       result.message = error.message;
       return result
     }
@@ -54,10 +54,8 @@ class FirebaseApp {
       }
       const snapShot = await this.firebaseDatabase.ref('messages').once('value');
       const values = snapShot.val();
-      console.log(values);
       
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       result.message = error.message;
       return result;
     }
@@ -71,9 +69,9 @@ class FirebaseApp {
       }
       const snapShot = await this.firebaseDatabase.ref('messages/ff5417f9-e913-429b-b93b-45942a9e8223').once('value');
       const value = snapShot.val();
-      console.log(value);
+      console.debug(value);
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 }

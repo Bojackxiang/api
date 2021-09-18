@@ -19,7 +19,6 @@ class Message {
       message: undefined,
     }
     try {
-      console.log('in')
       if(!message.message || !message.name){
         throw new Error("Name and message are required")
       }

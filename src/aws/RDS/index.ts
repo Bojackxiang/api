@@ -22,12 +22,11 @@ class UserRDS {
       try {
         const connection: mysql.Connection | null = await this.rdsConnection()
         if (connection) {
-          console.log('connection 正常建立，现在开始销毁')
           connection.destroy();
         }
         this.pool =  mysql.createPool(DB_CONFIG);
       } catch (error) {
-        console.log('aws rds 连接失败', error)
+        console.error('aws rds connection error', error)
       }
 
     })()
@@ -41,8 +40,7 @@ class UserRDS {
       await connection.connect();
       return connection;
     } catch (error) {
-      console.log('出错了')
-      console.log(error)
+      console.error(error)
       return null;
     }
 

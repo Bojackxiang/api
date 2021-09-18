@@ -3,13 +3,11 @@ import DynamoDB_Message from '..'
 describe('message dynammodb 的测试', () => {
   it('scan 成功', async () => {
     const items = await DynamoDB_Message.scan();
-    console.log(items?.length)
     expect(items?.length).toBeGreaterThan(0);
   });
 
   it('update / create 成功', async () => {
     const result = await DynamoDB_Message.addOrUpdateMessage("test");
-    console.log(result)
   });
 
   it('get one message by id  成功', async () => {

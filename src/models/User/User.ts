@@ -1,4 +1,4 @@
-import Result, { IResult } from '../IResult'
+import Result, { IResult } from '../Result'
 import generateUUID from '../../utils/uuid-generator';
 import UserRDS from '../../aws/RDS'
 import mysql from 'mysql'

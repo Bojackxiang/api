@@ -1,4 +1,4 @@
-import Result, { IResult } from "../../models/IResult"
+import Result, { IResult } from "../../models/Result"
 import User from "../../models/User/User"
 import { generateJWT } from "../../utils/jwt"
 

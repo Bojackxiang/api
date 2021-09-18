@@ -20,11 +20,10 @@ healthCheckRouter.get('/health-check', async (req: Request,
       'unknown'
     );
 
-    const result = await User.createUser(user);
-    console.log(result)
+    const result = await User.createUser(user)
 
   } catch (err) {
-    console.log(err)
+    console.error(err)
     next(err);
   }
 })

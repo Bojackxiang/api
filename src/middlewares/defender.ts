@@ -6,7 +6,7 @@ export default (req: express.Request, res: express.Response, next: express.NextF
     if (!secret || secret !== 'secret') {
       throw new Error('Not allowed')
     }
-    console.log(headers.host)
+    console.debug(headers.host)
     // TODO: 每次有访问都能查看当问地址
     // TODO: 如果不是我喜欢的，我可以屏蔽
     next()

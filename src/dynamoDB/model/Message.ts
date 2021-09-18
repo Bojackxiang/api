@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk'
 import awsConfig from '../../config/aws.config'
 import { v4 } from 'uuid';
-import Result from '../../models/IResult';
+import Result from '../../models/Result';
 import { DocumentClient, Key } from 'aws-sdk/clients/dynamodb';
 
 AWS.config.update({
@@ -80,11 +80,10 @@ class Message implements IMessage {
                     createdAt: new Date().toISOString()
                 }
             };
-            console.log({ uuid })
             await dbClient.put(params).promise()
 
             return uuid
-        } catch (error) {
+        } catch (error: any) {
             return Result.failure(error.message)
         }
 
@@ -105,7 +104,7 @@ class Message implements IMessage {
             }
             return (await dbClient.scan(params).promise()).Items;
 
-        } catch (error) {
+        } catch (error: any) {
             Result.failure(error.message)
         }
 
