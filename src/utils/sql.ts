@@ -7,21 +7,20 @@ const runQuery = (query: string, resultHandler: any) => {
     if (!query) {
       reject(new Error('Query is empty'));
     };
-    
+
     const pool = UserRDS.getPool;
     if (!pool) {
-      reject("没有找到数据库的 pool, 请检查代码")
+      reject("Not found pool, please check code")
     }
 
     pool.getConnection((err: any, connection: mysql.PoolConnection) => {
       if (err) {
-        reject(err);
+        reject(Result.failure('Get Connection Error', err));
       } else {
         connection.query(query, async (err, result) => {
           if (err) {
-            reject(err);
+            reject(Result.failure('Run query error', err.message));
           } else {
-            console.log('result', result)
             resolve(await resultHandler(result))
           }
         })

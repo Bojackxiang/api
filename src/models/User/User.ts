@@ -58,6 +58,7 @@ class User implements IUser {
     }
   }
 
+  
   static async verifyUserInfo(user: Partial<IUser>) {
     // 这边只是用户登录，和比较信息，jwt token 在 service 层添加
     try {
@@ -73,66 +74,57 @@ class User implements IUser {
 
       const handlerResult = async (result: any) => {
         const foundUser = result[0];
-        if (!user.password) throw new Error('没有用户密码')
+        if(!foundUser) return Result.failure("Not found user with given username / email", {})
+        if (!user.password) throw new Error('Password is required')
         const passwordCompare = await comparePassword(
           foundUser.password,
           user.password as string);
 
         if (passwordCompare) {
-          return Result.success("登录成功", foundUser)
+          return Result.success("Verify Successfully", foundUser)
         } else {
-          return Result.failure("用户信息不正确")
+          return Result.failure("Incorrect User Info")
         }
       }
-      
+
       return await runQuery(query, handlerResult);
 
     } catch (error) {
-      return Result.failure("用户验证出错", error)
+      return Result.failure("Fail to verify user info", error)
     }
-
-    
-
-
-
   }
 
-
   static async createUser(newUser: IUser) {
-    return new Promise(async (resolve, reject) => {
-      const pool = UserRDS.getPool;
-      if (pool) {
-        const password = await encoding(newUser.password.toString());
-        const user = new User(
-          newUser.username,
-          password as string,
-          newUser.email,
-          newUser.phone_num,
-          newUser.age,
-          newUser.sex,
-        );
+    try {
+      const password = await encoding(newUser.password.toString());
+      const user = new User(
+        newUser.username,
+        password as string,
+        newUser.email,
+        newUser.phone_num,
+        newUser.age,
+        newUser.sex,
+      );
+      const query = `INSERT INTO users.users (user_id, username, password, email, age, sex, phone_num) 
+        VALUES ('${user.user_id}', '${user.username}', '${user.password}', '${user.email}', '${user.age}', '${user.sex}', '${user.phone_num}')`;
 
-        const query = `INSERT INTO users.users (user_id, username, password, email, age, sex, phone_num) 
-                VALUES ('${user.user_id}', '${user.username}', '${user.password}', '${user.email}', '${user.age}', '${user.sex}', '${user.phone_num}')`;
-
-        pool.getConnection(
-          (err: any, connection: mysql.PoolConnection) => {
-            if (err) reject(Result.failure("", err))
-            connection.query(query, (error, results, fields) => {
-              if (error) {
-                reject(Result.failure("", error))
-              }
-              // console.log(pool._freeConnections.indexOf(connection))
-              connection.release()
-              resolve(Result.success("创建用户成功", error))
-            });
+      const handlerResult = async (result: any) => {
+        try {
+          if (result && result.affectedRows >= 1) {
+            return Result.success('User created successfully')
           }
-        )
-      } else {
-        reject("没有找到 Pool")
+          throw new Error ('Failure to create user')
+        } catch (error: any) {
+          return Result.failure(error.message)
+        }
       }
 
-    })
+      return await runQuery(query, handlerResult);
+
+    } catch (error) {
+      return Result.failure("Failure to create user", error)
+    }
+
   }
 }
 

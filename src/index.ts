@@ -1,5 +1,5 @@
 import express from 'express'
-import { loginRouter, healthCheck, messageRouter, testRouter } from './routers'
+import { userRouters, healthCheck, messageRouter, testRouter } from './routers'
 import bodyParser from 'body-parser';
 import cors from "cors";
 import defender from './middlewares/defender';
@@ -22,7 +22,7 @@ app.use((req: express.Request,
 // router 部分
 // -----------------
 app.use('/api', messageRouter);
-app.use('/api', loginRouter);
+app.use('/api', userRouters);
 app.use('/api', healthCheck)
 app.use('/api', testRouter)
 
