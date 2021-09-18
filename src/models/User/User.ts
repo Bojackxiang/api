@@ -57,19 +57,17 @@ class User implements IUser {
       return Result.failure(error.message)
     }
   }
-
-  
+ 
   static async verifyUserInfo(user: Partial<IUser>) {
     // 这边只是用户登录，和比较信息，jwt token 在 service 层添加
     try {
-
       const query = `
             SELECT username, email, password 
             FROM users.users
             WHERE 
                 username = '${user.username}'
                 OR
-                username = '${user.email}'
+                email = '${user.email}'
             `;
 
       const handlerResult = async (result: any) => {

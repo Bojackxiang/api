@@ -34,10 +34,11 @@ const loginController = async (req: Request, res: Response) => {
 
     res.json(responseBody)
   } catch (error: any) {
-    console.log(error)
     const responseBody = ResponseBuilder.buildResponse(
       'Login Error',
-      error.message
+      error.message,
+      400,
+      false
     )
     res.status(400).json(responseBody)
   }
