@@ -17,14 +17,14 @@ const registerService = async (loginInput: UserLoginInterface) => {
     }
 
     const createResult = await User.createUser({
-      username: username ?? '', 
-      email: email ?? '', 
+      username: username ?? '',
+      email: email ?? '',
       password,
       ...properties
     });
 
     const { success, data, message } = createResult as IResult;
-    
+
     if (!success) {
       throw new Error(message)
     }

@@ -100,8 +100,6 @@ class User implements IUser {
     try {
       const password = await encoding(newUser.password.toString());
 
-      console.log(newUser)
-
       const user = new User(
         newUser.username,
         password as string,

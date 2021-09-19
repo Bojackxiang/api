@@ -1,6 +1,5 @@
 import loginService from "../../service/User/Login";
 import { Request, Response } from 'express'
-import Result from "../../models/Result";
 import ResponseBuilder from '../../utils/response-builder'
 
 
