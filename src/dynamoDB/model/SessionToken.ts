@@ -54,8 +54,31 @@ class SessionToken implements ISessionToken {
       console.log(error)
       return Result.failure(error.message)
     }
+  }
 
+   // check if the user name is already in the dynamodb 
+   static async checkExisting(username: string) {
+    try {
+      const params: DocumentClient.ScanInput = {
+        TableName: tableName,
+        FilterExpression: `#username = :username`,
+        ExpressionAttributeNames: {
+          '#username': 'username',
+        },
+        ExpressionAttributeValues: {
+          ":username": username,
+        }
+      }
 
+      const result = await dbClient.scan(params).promise();
+      if (result.Items && result.Items?.length > 0) {
+        return result.Items[0]
+      } else {
+        return {}
+      }
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   // 查找某个用户的 session
@@ -79,13 +102,14 @@ class SessionToken implements ISessionToken {
       if (result.Items && result.Items?.length > 0) {
         return result.Items[0]
       } else {
-        return []
+        return {}
       }
     } catch (error: any) {
       throw new Error(error.message);
     }
   }
 
+  // 删除某一个 数据
   static async deleteSessionTokenByUsernameAndToken(username: string,
     sessionToken: string) {
     try {

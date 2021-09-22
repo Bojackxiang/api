@@ -1,3 +1,4 @@
+import SessionToken from "../../dynamoDB/model/SessionToken"
 import Result, { IResult } from "../../models/Result"
 import User from "../../models/User/User"
 import { generateJWT } from "../../utils/jwt"
@@ -28,8 +29,14 @@ const loginService = async (loginInput: UserLoginInterface) => {
 
     const token = await generateJWT(data.username, data.password)
 
+    // check if the session token is already in the dynamodb
+    const sessionData = await SessionToken.checkExisting(data.username)
+    if (!sessionData.session_id) {
+      SessionToken.createSessionToken(data.username, token)
+    }
+
     return Result.success('Login Successfully', {
-      ...data, 
+      ...data,
       token,
     })
 
@@ -39,3 +46,5 @@ const loginService = async (loginInput: UserLoginInterface) => {
 }
 
 export default loginService
+
+
