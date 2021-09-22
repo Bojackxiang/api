@@ -9,6 +9,12 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
+
+// -----------------
+// redis 暂时不考虑 redis 
+// -----------------
+// const redis_client = RedisClientInstance;
+
 // -----------------
 // 保护网站不被恶意访问 
 // -----------------
