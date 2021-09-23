@@ -3,6 +3,11 @@ import { Request, Response } from 'express'
 import ResponseBuilder from '../../utils/response-builder'
 import cookie from 'cookie'
 
+const TOKEN_NAME = 'userToken'
+const COOKIE_CONFIG = {
+  httpOnly: true,
+  maxAge: 60 * 60 * 24 * 7
+}
 
 const loginController = async (req: Request, res: Response) => {
   try {
@@ -32,12 +37,9 @@ const loginController = async (req: Request, res: Response) => {
       throw new Error(data);
     }
 
-    console.log(responseBody)
-    // 这边需要把 token 拿出来，然后放到 cookie 里面
-    res.setHeader('Set-Cookie', cookie.serialize('userToken', responseBody.data.token, {
-      httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7 // 1 week
-    }));
+    // set the response cookie
+    const TOKEN = responseBody.data.token
+    res.setHeader('Set-Cookie', cookie.serialize(TOKEN_NAME, TOKEN, COOKIE_CONFIG));
 
     res.json(responseBody.data.token)
   } catch (error: any) {
