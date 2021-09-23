@@ -1,6 +1,7 @@
 import loginService from "../../service/User/Login";
 import { Request, Response } from 'express'
 import ResponseBuilder from '../../utils/response-builder'
+import cookie from 'cookie'
 
 
 const loginController = async (req: Request, res: Response) => {
@@ -31,7 +32,14 @@ const loginController = async (req: Request, res: Response) => {
       throw new Error(data);
     }
 
-    res.json(responseBody)
+    console.log(responseBody)
+    // 这边需要把 token 拿出来，然后放到 cookie 里面
+    res.setHeader('Set-Cookie', cookie.serialize('userToken', responseBody.data.token, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7 // 1 week
+    }));
+
+    res.json(responseBody.data.token)
   } catch (error: any) {
     const responseBody = ResponseBuilder.buildResponse(
       error.message,
