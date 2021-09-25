@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import defender from './middlewares/defender';
 import RDS from './aws/RDS';
+import BASE_CONF from './config/base'
 
 const app = express()
 app.use(bodyParser.json())
@@ -47,6 +48,6 @@ process.on('SIGINT', function () {
 });
 
 
-app.listen(3001, () => {
+app.listen(BASE_CONF.PORT, () => {
   console.debug('🚀 API IS RUNNING ON 3001...');
 })
